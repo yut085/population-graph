@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import documents from './documents';
+import React, { Component } from "react";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import documents from "./documents";
+import theme from "./theme";
 
 class PopulationGraph extends Component {
   constructor() {
@@ -15,8 +16,8 @@ class PopulationGraph extends Component {
   }
 
   componentDidMount() {
-    fetch('https://opendata.resas-portal.go.jp/api/v1/prefectures', {
-      headers: { 'X-API-KEY': documents.api.myApi }
+    fetch("https://opendata.resas-portal.go.jp/api/v1/prefectures", {
+      headers: { "X-API-KEY": documents.api.myApi }
     })
       .then(response => response.json())
       .then(res => {
@@ -31,9 +32,9 @@ class PopulationGraph extends Component {
     if (!this.state.selected[index]) {
       fetch(
         `https://opendata.resas-portal.go.jp/api/v1/population/sum/perYear?cityCode=-&prefCode=${index +
-        1}`,
+          1}`,
         {
-          headers: { 'X-API-KEY': documents.api.myApi }
+          headers: { "X-API-KEY": documents.api.myApi }
         }
       )
         .then(response => response.json())
@@ -67,12 +68,9 @@ class PopulationGraph extends Component {
 
   renderButton(props) {
     return (
-      <div
-        key={props.prefCode}
-        style={{ margin: '5px', display: 'inline-block' }}
-      >
+      <div key={props.prefCode} style={theme.buttonStyle}>
         <input
-          type='checkbox'
+          type="checkbox"
           checked={this.state.selected[props.prefCode - 1]}
           onChange={() => this.chagePrefectures(props.prefCode - 1)}
         />
@@ -103,22 +101,15 @@ class PopulationGraph extends Component {
             connectorAllowed: documents.label
           },
           pointInterval: documents.pointInterval,
-          pointStart: documents.pointStart,
+          pointStart: documents.pointStart
         }
       },
       series: this.state.series
     };
     return (
       <div>
-        <div
-          style={{
-            textAlign: 'center',
-            backgroundColor: '#C0C0C0'
-          }}
-        >
-          都道府県別人口推移グラフ
-        </div>
-        <div>都道府県</div>
+        <div style={theme.graphStyle}>{documents.text.graphTitle}</div>
+        <div>{documents.pref.prefName}</div>
 
         {Object.keys(obj).map(i => this.renderButton(obj[i]))}
         <HighchartsReact highcharts={Highcharts} options={options} />
