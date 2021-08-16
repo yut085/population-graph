@@ -31,7 +31,7 @@ class PopulationGraph extends Component {
 
     if (!this.state.selected[index]) {
       fetch(
-        `https://opendata.resas-portal.go.jp/api/v1/population/sum/perYear?cityCode=-&prefCode=${index +
+        `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${index +
           1}`,
         {
           headers: { "X-API-KEY": documents.api.myApi }
@@ -40,9 +40,9 @@ class PopulationGraph extends Component {
         .then(response => response.json())
         .then(res => {
           let tmp = [];
-          Object.keys(res.result.line.data).forEach(i => {
-            tmp.push(res.result.line.data[i].value);
-          });
+          for (let j = 0; j < 18; j++) {
+            tmp.push(res.result.data[0].data[j].value);
+          }
           const res_series = {
             name: this.state.prefectures[index].prefName,
             data: tmp
