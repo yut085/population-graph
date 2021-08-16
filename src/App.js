@@ -40,7 +40,7 @@ class PopulationGraph extends Component {
         .then(response => response.json())
         .then(res => {
           let tmp = [];
-          for (let j = 0; j < 18; j++) {
+          for (let j = 0; j < 10; j++) {
             tmp.push(res.result.data[0].data[j].value);
           }
           const res_series = {
