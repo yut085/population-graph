@@ -16,12 +16,12 @@ class PopulationGraph extends Component {
 
   componentDidMount() {
     fetch('https://opendata.resas-portal.go.jp/api/v1/prefectures', {
-      headers: {'X-API-KEY': documents.api.myApi}
+      headers: { 'X-API-KEY': documents.api.myApi }
     })
-    .then(response => response.json())
-    .then(res => {
-      this.setState({ prefectures: res.result });
-    });
+      .then(response => response.json())
+      .then(res => {
+        this.setState({ prefectures: res.result });
+      });
   }
 
   chagePrefectures(index) {
@@ -31,26 +31,26 @@ class PopulationGraph extends Component {
     if (!this.state.selected[index]) {
       fetch(
         `https://opendata.resas-portal.go.jp/api/v1/population/sum/perYear?cityCode=-&prefCode=${index +
-          1}`,
+        1}`,
         {
           headers: { 'X-API-KEY': documents.api.myApi }
         }
       )
-      .then(response => response.json())
-      .then(res => {
-        let tmp = [];
-        Object.keys(res.result.line.data).forEach(i => {
-          tmp.push(res.result.line.data[i].value);
+        .then(response => response.json())
+        .then(res => {
+          let tmp = [];
+          Object.keys(res.result.line.data).forEach(i => {
+            tmp.push(res.result.line.data[i].value);
+          });
+          const res_series = {
+            name: this.state.prefectures[index].prefName,
+            data: tmp
+          };
+          this.setState({
+            selected: selected_copy,
+            series: [...this.state.series, res_series]
+          });
         });
-        const res_series = {
-          name: this.state.prefectures[index].prefName,
-          data: tmp
-        };
-        this.setState({
-          selected: selected_copy,
-          series: [...this.state.series, res_series]
-        });
-      });
     } else {
       const series_copy = this.state.series.slice();
       for (let i = 0; i < series_copy.length; i++) {
@@ -85,25 +85,25 @@ class PopulationGraph extends Component {
     const obj = this.state.prefectures;
     const options = {
       title: {
-        text: '都道府県別の人口推移グラフ'
+        text: documents.title.titleText
       },
       xAxis: {
         title: {
-          text: '年度'
+          text: documents.xLabel.title.text
         }
       },
       yAxis: {
         title: {
-          text: '人口'
+          text: documents.yLabel.title.text
         }
       },
       plotOptions: {
         series: {
           label: {
-            connectorAllowed: false
+            connectorAllowed: documents.label
           },
-          pointInterval: 5,
-          pointStart: 1970
+          pointInterval: documents.pointInterval,
+          pointStart: documents.pointStart,
         }
       },
       series: this.state.series
@@ -111,7 +111,7 @@ class PopulationGraph extends Component {
     return (
       <div>
         {Object.keys(obj).map(i => this.renderButton(obj[i]))}
-        <HighchartsReact highcharts={Highcharts} options={options}/>
+        <HighchartsReact highcharts={Highcharts} options={options} />
       </div>
     );
   }
