@@ -32,7 +32,7 @@ const documents = {
   },
 
   pointInterval: 5,
-  pointStart: 1979
+  pointStart: 1980
 };
 
 export default documents;
