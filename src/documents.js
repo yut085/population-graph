@@ -3,7 +3,7 @@ const documents = {
         myApi: 'JCWV5aheW2CStnKItNg9TfmWHZXHibKAZZ86XJd2'
     },
     title: {
-        titleText: '都道府県別人口推移グラフ'
+        titleText: ''
     },
     xLabel: {
         title: {
@@ -12,13 +12,13 @@ const documents = {
     },
     yLabel: {
         title: {
-            text: '人口'
+            text: '人口数'
         }
     },
     label: {
         connectorAllowed: false
     },
-    
+
     pointInterval: 5,
     pointStart: 1979,
 }

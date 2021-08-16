@@ -110,6 +110,16 @@ class PopulationGraph extends Component {
     };
     return (
       <div>
+        <div
+          style={{
+            textAlign: 'center',
+            backgroundColor: '#C0C0C0'
+          }}
+        >
+          都道府県別人口推移グラフ
+        </div>
+        <div>都道府県</div>
+
         {Object.keys(obj).map(i => this.renderButton(obj[i]))}
         <HighchartsReact highcharts={Highcharts} options={options} />
       </div>
